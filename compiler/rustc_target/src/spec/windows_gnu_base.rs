@@ -59,6 +59,8 @@ pub fn opts() -> TargetOptions {
     late_link_args_static.insert(LinkerFlavor::Gcc, static_unwind_libs.clone());
     late_link_args_static.insert(LinkerFlavor::Lld(LldFlavor::Ld), static_unwind_libs);
 
+    let extern_thread_local_references = super::windows_msvc_base::opts().extern_thread_local_references;
+
     TargetOptions {
         os: "windows".to_string(),
         env: "gnu".to_string(),
@@ -87,6 +89,7 @@ pub fn opts() -> TargetOptions {
         emit_debug_gdb_scripts: false,
         requires_uwtable: true,
         eh_frame_header: false,
+        extern_thread_local_references,
 
         ..Default::default()
     }

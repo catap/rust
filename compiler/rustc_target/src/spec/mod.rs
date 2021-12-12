@@ -1359,6 +1359,9 @@ pub struct TargetOptions {
     /// Pass a list of symbol which should be exported in the dylib to the linker.
     pub limit_rdylib_exports: bool,
 
+    /// Whether or not a platform supports extern references for thread local.
+    pub extern_thread_local_references: bool,
+
     /// If set, have the linker export exactly these symbols, instead of using
     /// the usual logic to figure this out from the crate itself.
     pub override_export_symbols: Option<Vec<String>>,
@@ -1511,6 +1514,7 @@ impl Default for TargetOptions {
             default_uwtable: false,
             simd_types_indirect: true,
             limit_rdylib_exports: true,
+            extern_thread_local_references: true,
             override_export_symbols: None,
             merge_functions: MergeFunctions::Aliases,
             mcount: "mcount".to_string(),
@@ -2098,6 +2102,7 @@ impl Target {
         key!(default_uwtable, bool);
         key!(simd_types_indirect, bool);
         key!(limit_rdylib_exports, bool);
+        key!(extern_thread_local_references, bool);
         key!(override_export_symbols, opt_list);
         key!(merge_functions, MergeFunctions)?;
         key!(mcount = "target-mcount");
@@ -2339,6 +2344,7 @@ impl ToJson for Target {
         target_option_val!(default_uwtable);
         target_option_val!(simd_types_indirect);
         target_option_val!(limit_rdylib_exports);
+        target_option_val!(extern_thread_local_references);
         target_option_val!(override_export_symbols);
         target_option_val!(merge_functions);
         target_option_val!(mcount, "target-mcount");

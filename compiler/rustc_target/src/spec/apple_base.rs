@@ -18,6 +18,9 @@ pub fn opts(os: &str) -> TargetOptions {
     // 10.7 for everything else.
     let has_elf_tls = macos_deployment_target("x86_64") >= (10, 7);
 
+    // arm64 is 11+, and i686 is up to 10.6
+    let extern_thread_local_references = macos_deployment_target("x86_64") >= (10, 7);
+
     TargetOptions {
         os: os.to_string(),
         vendor: "apple".to_string(),
@@ -52,6 +55,8 @@ pub fn opts(os: &str) -> TargetOptions {
         //
         // For some more info see the commentary on #47086
         link_env: vec![("ZERO_AR_DATE".to_string(), "1".to_string())],
+
+        extern_thread_local_references,
 
         ..Default::default()
     }
